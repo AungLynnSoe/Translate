@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  outputFileTracingIncludes: {
+    "/api/generate": ["./node_modules/kuromoji/dict/**/*"],
+  },
 };
 
 export default nextConfig;

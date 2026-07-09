@@ -116,7 +116,7 @@ export default function RegisterPanel({ editingEntry, onSubmit, onCancelEdit }: 
             value={form.kanji}
             onChange={(e) => updateField("kanji", e.target.value)}
             placeholder="例: 推奨"
-            className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
           <button
             type="button"
@@ -140,7 +140,7 @@ export default function RegisterPanel({ editingEntry, onSubmit, onCancelEdit }: 
             value={form.reading}
             onChange={(e) => updateField("reading", e.target.value)}
             placeholder="例: すいしょう (suishou)"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
         </div>
         <div>
@@ -152,7 +152,7 @@ export default function RegisterPanel({ editingEntry, onSubmit, onCancelEdit }: 
             value={form.myanmar}
             onChange={(e) => updateField("myanmar", e.target.value)}
             placeholder="例: အကြံပြုချက်"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function RegisterPanel({ editingEntry, onSubmit, onCancelEdit }: 
           onChange={(e) => updateField("note", e.target.value)}
           rows={2}
           placeholder="補足があれば入力"
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
       </div>
 
