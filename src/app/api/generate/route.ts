@@ -21,6 +21,13 @@ export async function POST(request: NextRequest) {
     translateToMyanmar(word),
   ]);
 
+  if (readingResult.status === "rejected") {
+    console.error(`[generate] 読み方生成に失敗 (word="${word}"):`, readingResult.reason);
+  }
+  if (myanmarResult.status === "rejected") {
+    console.error(`[generate] ミャンマー語訳に失敗 (word="${word}"):`, myanmarResult.reason);
+  }
+
   if (readingResult.status === "rejected" && myanmarResult.status === "rejected") {
     return NextResponse.json(
       { error: "自動生成に失敗しました。手入力してください" },
@@ -31,5 +38,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     reading: readingResult.status === "fulfilled" ? readingResult.value : "",
     myanmar: myanmarResult.status === "fulfilled" ? myanmarResult.value : "",
+    readingFailed: readingResult.status === "rejected",
+    myanmarFailed: myanmarResult.status === "rejected",
   });
 }

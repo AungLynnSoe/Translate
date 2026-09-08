@@ -71,8 +71,14 @@ export default function RegisterPanel({ editingEntry, onSubmit, onCancelEdit }: 
         reading: data.reading || prev.reading,
         myanmar: data.myanmar || prev.myanmar,
       }));
-      if (!data.reading || !data.myanmar) {
-        setGenerateError("一部の項目のみ自動生成できました。残りは手入力してください");
+      if (data.readingFailed || data.myanmarFailed) {
+        const failedFields = [
+          data.readingFailed ? "読み方" : null,
+          data.myanmarFailed ? "ミャンマー語訳" : null,
+        ].filter(Boolean);
+        setGenerateError(
+          `「${failedFields.join("」「")}」の自動生成に失敗しました。手入力してください`,
+        );
       }
     } catch {
       setGenerateError("自動生成に失敗しました。手入力してください");

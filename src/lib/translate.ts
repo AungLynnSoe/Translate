@@ -1,29 +1,36 @@
-// Google翻訳の無料エンドポイント（APIキー不要）を使ってミャンマー語訳を取得する
+// Google Cloud Translation API(公式・要APIキー)を使ってミャンマー語訳を取得する
 export async function translateToMyanmar(text: string): Promise<string> {
-  const url = new URL("https://translate.googleapis.com/translate_a/single");
-  url.searchParams.set("client", "gtx");
-  url.searchParams.set("sl", "ja");
-  url.searchParams.set("tl", "my");
-  url.searchParams.set("dt", "t");
-  url.searchParams.set("q", text);
+  const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
+  if (!apiKey) {
+    throw new Error("GOOGLE_TRANSLATE_API_KEY is not set");
+  }
+
+  const url = new URL("https://translation.googleapis.com/language/translate/v2");
+  url.searchParams.set("key", apiKey);
 
   const res = await fetch(url, {
-    headers: { "User-Agent": "Mozilla/5.0" },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      q: text,
+      source: "ja",
+      target: "my",
+      format: "text",
+    }),
   });
+
   if (!res.ok) {
-    throw new Error(`translate request failed: ${res.status}`);
+    const body = await res.text().catch(() => "");
+    throw new Error(`translate request failed: ${res.status} ${body}`);
   }
 
-  const data = (await res.json()) as unknown;
-  if (!Array.isArray(data) || !Array.isArray(data[0])) {
+  const data = (await res.json()) as {
+    data?: { translations?: { translatedText?: string }[] };
+  };
+  const translated = data.data?.translations?.[0]?.translatedText;
+  if (typeof translated !== "string") {
     throw new Error("unexpected translate response shape");
   }
-
-  const segments = data[0] as unknown[];
-  const translated = segments
-    .map((segment) => (Array.isArray(segment) ? segment[0] : ""))
-    .filter((part): part is string => typeof part === "string")
-    .join("");
 
   const cleaned = translated.trim().replace(/[。.]+$/, "");
   if (!cleaned) {
